@@ -1,5 +1,5 @@
 import Peer from 'peerjs'
-import { peerReady, streamReceive, controlSendPause } from './actions'
+import { peerReady, streamReceive } from './actions'
 import store from './store'
 import globalEvent from './globalEvent'
 import {

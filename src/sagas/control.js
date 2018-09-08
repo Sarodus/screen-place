@@ -8,24 +8,23 @@ import {
 
 function* sendPlay(action) {
     const connections = yield select(state => state.connection.connections)
-    yield Promise.all(connections.map(conn => {
+    yield Promise.all(connections.map(conn => (
         conn.send(action)
-    }))
+    )))
 }
 
 function* sendPause(action) {
-    console.log('Send pause action!!', action)
     const connections = yield select(state => state.connection.connections)
-    yield Promise.all(connections.map(conn => {
+    yield Promise.all(connections.map(conn => (
         conn.send(action)
-    }))
+    )))
 }
 
 function* sendJump(action) {
     const connections = yield select(state => state.connection.connections)
-    yield Promise.all(connections.map(conn => {
+    yield Promise.all(connections.map(conn => (
         conn.send(action)
-    }))
+    )))
 }
 
 

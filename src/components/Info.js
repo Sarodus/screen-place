@@ -14,7 +14,6 @@ class Info extends Component {
     }
 
     connect = () => {
-        console.log('Connect', this.state.otherId)
         this.props.peerConnect(this.state.otherId)
     }
 
