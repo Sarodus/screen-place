@@ -1,6 +1,18 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import YouTube from 'react-youtube'
+import {
+  controlSendPlay,
+  controlSendPause,
+  controlSendJump
+} from '../actions'
+import {
+  CONTROL_SEND_PLAY,
+  CONTROL_SEND_PAUSE,
+  CONTROL_SEND_JUMP,
+} from '../constants'
+
 
 const opts = {
   playerVars: {
@@ -15,6 +27,31 @@ class YouTubeVideo extends Component {
     target: null
   }
 
+  componentWillUnmount() {
+    clearInterval(this.tickInterval)
+    let element = window || document
+    element.removeEventListener(CONTROL_SEND_PLAY)
+    element.removeEventListener(CONTROL_SEND_PAUSE)
+    element.removeEventListener(CONTROL_SEND_JUMP)
+
+  }
+
+  componentDidMount() {
+    let element = window || document
+    element.addEventListener(CONTROL_SEND_PLAY, this.onPlay)
+    element.addEventListener(CONTROL_SEND_PAUSE, this.onPause)
+    element.addEventListener(CONTROL_SEND_JUMP, this.onJump)
+  }
+
+  tick = target => {
+    const lastTime = this.state.currentTime
+    const currentTime = target.getCurrentTime()
+    if (this.haveToJump(lastTime, currentTime)) {
+      this.props.sendJump(currentTime)
+    }
+    this.setState({currentTime})
+  }
+
   onPlay = () => {
     this.state.target.playVideo()
   }
@@ -23,20 +60,10 @@ class YouTubeVideo extends Component {
     this.state.target.pauseVideo()
   }
 
-  onJump = pos => {
-    if (this.haveToJump(this.state.currentTime, pos)) {
-      this.state.target.seekTo(pos)
+  onJump = event => {
+    if (this.haveToJump(this.state.currentTime, event.detail.time)) {
+      this.state.target.seekTo(event.detail.time)
     }
-  }
-
-  sendPlay = () => {
-    console.log('Send play!')
-  }
-  sendPause = () => {
-    console.log('Send pause!')
-  }
-  sendJump = time => {
-    console.log('Send jump!', time)
   }
 
   onStateChange = ({data}) => {
@@ -45,9 +72,9 @@ class YouTubeVideo extends Component {
         console.log('Video end!')
         break
       case 1:
-        return this.sendPlay()
+        return this.props.sendPlay()
       case 2:
-        return this.sendPause()
+        return this.props.sendPause()
       case 3:
         console.log('Buffering! take care! Send slow If its buffering for more than X seconds')
         break
@@ -63,19 +90,6 @@ class YouTubeVideo extends Component {
 
   haveToJump = (last, current) => {
     return Math.abs(last - current) > allowSecondsNoJump
-  }
-
-  tick = target => {
-    const lastTime = this.state.currentTime
-    const currentTime = target.getCurrentTime()
-    if (this.haveToJump(lastTime, currentTime)) {
-      this.sendJump(currentTime)
-    }
-    this.setState({currentTime})
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.tickInterval)
   }
 
   render() {
@@ -94,4 +108,10 @@ YouTubeVideo.propTypes = {
   videoId: PropTypes.string.isRequired
 }
 
-export default YouTubeVideo
+const mapDispatchToProps = dispatch => ({
+  sendPlay: () => dispatch(controlSendPlay()),
+  sendPause: () => dispatch(controlSendPause()),
+  sendJump: time => dispatch(controlSendJump(time)),
+})
+
+export default connect(null, mapDispatchToProps)(YouTubeVideo)

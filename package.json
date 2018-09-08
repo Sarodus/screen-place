@@ -2,21 +2,24 @@
   "name": "screen-place",
   "version": "0.1.0",
   "private": true,
-  "main": "src/electron-main.js",
   "dependencies": {
+    "peerjs": "^0.3.16",
     "prop-types": "^15.6.2",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
+    "react-redux": "^5.0.7",
     "react-scripts": "1.1.5",
     "react-youtube": "^7.6.0",
+    "redux": "^4.0.0",
+    "redux-devtools-extension": "^2.13.5",
+    "redux-saga": "^0.16.0",
     "webtorrent": "^0.102.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "electron": "electron ."
+    "eject": "react-scripts eject"
   },
   "devDependencies": {}
 }
