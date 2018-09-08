@@ -3,6 +3,7 @@ import { peerReady, streamReceive } from './actions'
 import store from './store'
 import globalEvent from './globalEvent'
 import {
+    SEARCH_DONE,
     CONTROL_SEND_PLAY,
     CONTROL_SEND_PAUSE,
     CONTROL_SEND_JUMP,
@@ -33,6 +34,8 @@ peer.on('open', id => {
 
 const processData = action => {
     switch(action.type) {
+        case SEARCH_DONE:
+            return globalEvent(SEARCH_DONE, {provider: action.provider, search: action.search})
         case CONTROL_SEND_PLAY:
             return globalEvent(CONTROL_SEND_PLAY)
         case CONTROL_SEND_PAUSE:

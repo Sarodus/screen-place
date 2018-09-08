@@ -1,3 +1,5 @@
+export const SEARCH_DONE = 'SEARCH_DONE'
+
 export const STREAM_RECEIVE = 'STREAM_RECEIVE'
 export const STREAM_SEND = 'STREAM_SEND'
 

@@ -1,4 +1,5 @@
 import {
+    SEARCH_DONE,
     STREAM_RECEIVE,
     STREAM_SEND,
     CONTROL_SEND_PLAY,
@@ -9,6 +10,11 @@ import {
     PEER_RECEIVE_CONNECTION,
 } from './constants'
 
+export const searchDone = (provider, search) => ({
+    type: SEARCH_DONE,
+    provider,
+    search
+})
 
 export const streamReceive = stream => ({
     type: STREAM_RECEIVE,

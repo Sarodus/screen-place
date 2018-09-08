@@ -108,10 +108,14 @@ YouTubeVideo.propTypes = {
   videoId: PropTypes.string.isRequired
 }
 
+const mapStateToProps = state => ({
+  videoId: state.search.search
+})
+
 const mapDispatchToProps = dispatch => ({
   sendPlay: () => dispatch(controlSendPlay()),
   sendPause: () => dispatch(controlSendPause()),
   sendJump: time => dispatch(controlSendJump(time)),
 })
 
-export default connect(null, mapDispatchToProps)(YouTubeVideo)
+export default connect(mapStateToProps, mapDispatchToProps)(YouTubeVideo)

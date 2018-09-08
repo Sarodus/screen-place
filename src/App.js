@@ -1,16 +1,29 @@
 import React, { Component } from 'react'
-import YouTubeVideo from './components/YouTubeVideo'
+import { connect } from 'react-redux'
 import Info from './components/Info'
+import Search from './components/Search'
+import providers from './providers'
+
 
 class App extends Component {
   render() {
+    const { provider } = this.props
+    const Provider = provider ? providers[provider].component : null
     return (
       <div className="App">
         <Info />
-        <YouTubeVideo videoId="FGBhQbmPwH8" />
+        <Search />
+        {provider && (
+          <Provider />
+        )}
       </div>
     )
   }
 }
 
-export default App
+const mapStateToProps = state => ({
+  provider: state.search.provider,
+  search: state.search.search,
+})
+
+export default connect(mapStateToProps)(App)
