@@ -1,29 +1,24 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import Info from './components/Info'
-import Search from './components/Search'
-import providers from './providers'
+import { BrowserRouter, Route } from 'react-router-dom'
+import Welcome from './container/Welcome'
+import Join from './container/Join'
+import Host from './container/Host'
+import Room from './container/Room'
 
 
 class App extends Component {
   render() {
-    const { provider } = this.props
-    const Provider = provider ? providers[provider].component : null
     return (
-      <div className="App">
-        <Info />
-        <Search />
-        {provider && (
-          <Provider />
-        )}
-      </div>
+      <BrowserRouter>
+        <div>
+          <Route exact path="/" component={Welcome}/>
+          <Route path="/join" component={Join}/>
+          <Route path="/host" component={Host}/>
+          <Route path="/room/:hostId" component={Room}/>
+        </div>
+      </BrowserRouter>
     )
   }
 }
 
-const mapStateToProps = state => ({
-  provider: state.search.provider,
-  search: state.search.search,
-})
-
-export default connect(mapStateToProps)(App)
+export default App

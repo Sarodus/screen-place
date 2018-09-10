@@ -6,6 +6,7 @@ import {
 
 const defaultState = {
     id: null,
+    otherId: null,
     connections: []
 }
 
@@ -19,6 +20,7 @@ export default (state=defaultState, action) => {
         case PEER_CONNECT:
             return {
                 ...state,
+                otherId: action.otherId
             }
         case PEER_RECEIVE_CONNECTION:
             return {

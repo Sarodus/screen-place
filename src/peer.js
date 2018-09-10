@@ -1,7 +1,11 @@
 import Peer from 'peerjs'
-import { peerReady, streamReceive } from './actions'
 import store from './store'
 import globalEvent from './globalEvent'
+import {
+    peerReady,
+    peerReceive,
+    streamReceive
+} from './actions'
 import {
     SEARCH_DONE,
     CONTROL_SEND_PLAY,
@@ -16,8 +20,9 @@ peer.connectTo = otherId => {
     return new Promise((resolve, reject) => {
         try {
             const conn = peer.connect(otherId)
+            conn.on('data', processData)
             conn.on('open', () => {
-                conn.send('Hi!!!')
+                // conn.send('Answer!')
                 return resolve(conn)
             })
         } catch (error) {
@@ -50,7 +55,8 @@ const processData = action => {
 }
 
 peer.on('connection', conn => {
-    conn.on('data', processData)
+    store.dispatch(peerReceive(conn))
+    // conn.on('data', processData)
 })
 
 peer.on('call', call => {
