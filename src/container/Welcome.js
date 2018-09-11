@@ -1,39 +1,27 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-
-
-const Join = () =>
-    <Link to="/join">
-        Join
-    </Link>
-
-const Host = ({hostId}) => {
-    if (hostId) {
-        return (
-            <Link to={`/room/${hostId}`}>
-                Host
-            </Link>
-        )
-    }
-    return <span>Host (generating id...)</span>
-}
-
+import { Button } from 'semantic-ui-react'
 
 class Welcome extends Component {
   render() {
+    const { hostId } = this.props
     return (
         <div>
-            <Join />
-            <Host hostId={this.props.hostId} />
+            <Button as={Link} to="/join">
+                Join
+            </Button>
+            <Button as={Link} to={`/room/${hostId}`} disabled={!hostId}>
+                Host
+                {!hostId && '(Loading token...)'}
+            </Button>
         </div>
     )
   }
 }
 
-
 const mapStateToProps = state => ({
     hostId: state.connection.id
-  })
+})
 
 export default connect(mapStateToProps)(Welcome)

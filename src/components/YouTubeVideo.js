@@ -30,10 +30,9 @@ class YouTubeVideo extends Component {
   componentWillUnmount() {
     clearInterval(this.tickInterval)
     let element = window || document
-    element.removeEventListener(CONTROL_SEND_PLAY)
-    element.removeEventListener(CONTROL_SEND_PAUSE)
-    element.removeEventListener(CONTROL_SEND_JUMP)
-
+    element.removeEventListener(CONTROL_SEND_PLAY, this.onPlay)
+    element.removeEventListener(CONTROL_SEND_PAUSE, this.onPause)
+    element.removeEventListener(CONTROL_SEND_JUMP, this.onJump)
   }
 
   componentDidMount() {

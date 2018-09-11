@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import providers from '../providers'
 import { searchDone } from '../actions'
-import { SEARCH_DONE } from '../constants'
-
 
 const Providers = ({selected, onChange}) => (
     <ul>
@@ -22,15 +20,6 @@ class Search extends Component {
     state = {
         provider: '',
         search: '',
-    }
-
-    componentDidMount() {
-        let element = window || document
-        element.addEventListener(SEARCH_DONE, this.onSearch)
-    }
-    componentWillUnmount() {
-        let element = window || document
-        element.removeEventListener(SEARCH_DONE)
     }
 
     onSearch = e => {

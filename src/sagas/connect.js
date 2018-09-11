@@ -1,12 +1,15 @@
-import { takeLatest, put } from 'redux-saga/effects'
-import {
-    PEER_CONNECT
-} from '../constants'
+import { takeLatest } from 'redux-saga/effects'
+import { PEER_CONNECT } from '../constants'
 import peer from '../peer'
 
-
 function* peerConnect(action) {
-    yield peer.connectTo(action.otherId)
+    try {
+        const conn = yield peer.connectTo(action.otherId)
+        console.log({conn})
+        yield conn
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export default [

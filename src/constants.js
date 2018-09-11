@@ -1,3 +1,5 @@
+export const REDIRECT = 'REDIRECT'
+
 export const SEARCH_DONE = 'SEARCH_DONE'
 
 export const STREAM_RECEIVE = 'STREAM_RECEIVE'

@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-
+import Connect from '../components/Connect'
+import RoomList from '../components/RoomList'
 
 class Join extends Component {
   render() {
     return (
       <div>
-        Input text otherId
-        <br />
-        List public rooms
+        <Connect />
+        <RoomList />
       </div>
     )
   }

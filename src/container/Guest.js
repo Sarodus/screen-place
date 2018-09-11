@@ -1,18 +1,23 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Info from '../components/Info'
-import Search from '../components/Search'
+import { peerConnect } from '../actions'
 import providers from '../providers'
 
 
-class Host extends Component {
+class Guest extends Component {
+  componentWillMount() {
+    this.connect(this.props.hostId)
+  }
+
+  connect = otherId => {
+    this.props.peerConnect(otherId)
+  }
+
   render() {
     const { provider } = this.props
     const Provider = provider ? providers[provider].component : null
     return (
       <div>
-        <Info />
-        <Search />
         {provider && (
           <Provider />
         )}
@@ -22,8 +27,13 @@ class Host extends Component {
 }
 
 const mapStateToProps = state => ({
+  hostId: state.connection.id,
   provider: state.search.provider,
   search: state.search.search,
 })
 
-export default connect(mapStateToProps)(Host)
+const mapDispatchToProps = dispatch => ({
+  peerConnect: otherId => dispatch(peerConnect(otherId))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Guest)
