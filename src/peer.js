@@ -5,13 +5,17 @@ import {
     peerReady,
     peerReceive,
     streamReceive,
-    searchDone
+    searchDone,
+    sendSync,
+    videoStatus,
 } from './actions'
 import {
     SEARCH_DONE,
     CONTROL_SEND_PLAY,
     CONTROL_SEND_PAUSE,
     CONTROL_SEND_JUMP,
+    PEER_REQUEST_SYNC,
+    VIDEO_STATUS,
 } from './constants'
 
 
@@ -25,7 +29,7 @@ peer.connectTo = otherId => {
             conn.on('error', reject)
             conn.on('close', reject)
             conn.on('data', processData)
-            conn.on('open', () => resolve(conn))
+            conn.on('open', () =>  resolve(conn))
             setTimeout(() => reject('Timeout'), 5000)
         } catch (error) {
             reject(error)
@@ -40,10 +44,12 @@ peer.on('open', id => {
 // peer.call(peerId, stream)
 
 const processData = action => {
-    console.log('GLOBAL ACTION', action)
+    console.log('processData', action)
     switch(action.type) {
         case SEARCH_DONE:
             return store.dispatch(searchDone(action.provider, action.search))
+        case VIDEO_STATUS:
+            return store.dispatch(videoStatus(action))
         case CONTROL_SEND_PLAY:
             return globalEvent(CONTROL_SEND_PLAY)
         case CONTROL_SEND_PAUSE:
@@ -56,10 +62,21 @@ const processData = action => {
     }
 }
 
+const processGuestRequest = action => {
+    console.log('processGuestRequest', action)
+    switch(action.type) {
+        case PEER_REQUEST_SYNC:
+            return store.dispatch(sendSync(action.peerId))
+        default:
+            console.log('Unknown action', action)
+            break
+    }
+}
+
 peer.on('connection', conn => {
     console.log('Connection received!', conn)
     store.dispatch(peerReceive(conn))
-    // conn.on('data', processData)
+    conn.on('data', processGuestRequest)
 })
 
 peer.on('call', call => {

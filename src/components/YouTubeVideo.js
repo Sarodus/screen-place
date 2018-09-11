@@ -108,7 +108,7 @@ YouTubeVideo.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  videoId: state.search.search
+  videoId: state.video.search
 })
 
 const mapDispatchToProps = dispatch => ({

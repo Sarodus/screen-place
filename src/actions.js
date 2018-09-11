@@ -8,7 +8,15 @@ import {
     PEER_READY,
     PEER_CONNECT,
     PEER_RECEIVE_CONNECTION,
+    PEER_REQUEST_SYNC,
+    PEER_SEND_SYNC,
+    VIDEO_STATUS,
 } from './constants'
+
+export const videoStatus = args => ({
+    type: VIDEO_STATUS,
+    ...args
+})
 
 export const searchDone = (provider, search) => ({
     type: SEARCH_DONE,
@@ -52,4 +60,14 @@ export const peerReceive = conn => ({
 export const peerConnect = otherId => ({
     type: PEER_CONNECT,
     otherId
+})
+
+export const requestSync = peerId => ({
+    type: PEER_REQUEST_SYNC,
+    peerId
+})
+
+export const sendSync = peerId => ({
+    type: PEER_SEND_SYNC,
+    peerId
 })

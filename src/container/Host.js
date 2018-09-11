@@ -22,8 +22,8 @@ class Host extends Component {
 }
 
 const mapStateToProps = state => ({
-  provider: state.search.provider,
-  search: state.search.search,
+  provider: state.video.provider,
+  search: state.video.search,
 })
 
 export default connect(mapStateToProps)(Host)
