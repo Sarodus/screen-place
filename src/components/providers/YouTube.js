@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import YouTube from 'react-youtube'
+import ReactYouTube from 'react-youtube'
 import {
   controlSendPlay,
   controlSendPause,
-  controlSendJump
-} from '../actions'
+  controlSendJump,
+} from '../../actions'
 import {
   CONTROL_SEND_PLAY,
   CONTROL_SEND_PAUSE,
   CONTROL_SEND_JUMP,
-} from '../constants'
+} from '../../constants'
 
 
 const opts = {
@@ -21,7 +21,7 @@ const opts = {
 }
 const allowSecondsNoJump = 5
 
-class YouTubeVideo extends Component {
+class YouTube extends Component {
   state = {
     currentTime: 0,
     target: null
@@ -93,7 +93,7 @@ class YouTubeVideo extends Component {
 
   render() {
     return (
-        <YouTube
+        <ReactYouTube
           opts={opts}
           videoId={this.props.videoId}
           onStateChange={this.onStateChange}
@@ -103,7 +103,7 @@ class YouTubeVideo extends Component {
   }
 }
 
-YouTubeVideo.propTypes = {
+YouTube.propTypes = {
   videoId: PropTypes.string.isRequired
 }
 
@@ -117,4 +117,4 @@ const mapDispatchToProps = dispatch => ({
   sendJump: time => dispatch(controlSendJump(time)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(YouTubeVideo)
+export default connect(mapStateToProps, mapDispatchToProps)(YouTube)

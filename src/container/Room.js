@@ -7,23 +7,44 @@ import Guest from './Guest'
 
 class Room extends Component {
     componentDidMount() {
-        if (this.props.hostId && this.props.hostId !== this.props.match.params.hostId) {
-            this.props.peerConnect(this.props.match.params.hostId)
+        this.handleProps(this.props)
+    }
+
+    componentWillReceiveProps(newProps) {
+        this.handleProps(newProps)
+    }
+
+    handleProps = props => {
+        if (
+            !props.connected &&
+            !props.connecting &&
+            !props.fail &&
+            props.hostId !== props.match.params.hostId) {
+            props.peerConnect(props.match.params.hostId)
         }
     }
 
     render() {
         if (this.props.match.params.hostId === this.props.hostId) {
             return <Host />
-        } else if(this.props.hostId) {
+        }
+        if (this.props.fail) {
+            return <Redirect to="/" />
+        }
+        if(this.props.connected) {
             return <Guest />
         }
-        return <Redirect to="/" />
+        return 'LOADIN!!...'
   }
 }
 
 const mapStateToProps = state => ({
-    hostId: state.connection.id
+    hostId: state.connection.id,
+    ready: state.connection.ready,
+    otherId: state.connection.otherId,
+    connecting: state.connection.connecting,
+    connected: state.connection.connected,
+    fail: state.connection.fail,
 })
 
 const mapDispatchToProps = dispatch => ({

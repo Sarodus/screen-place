@@ -11,9 +11,8 @@ class Welcome extends Component {
             <Button as={Link} to="/join">
                 Join
             </Button>
-            <Button as={Link} to={`/room/${hostId}`} disabled={!hostId}>
+            <Button as={Link} to={`/room/${hostId}`}>
                 Host
-                {!hostId && '(Loading token...)'}
             </Button>
         </div>
     )

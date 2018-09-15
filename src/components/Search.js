@@ -18,15 +18,14 @@ const Provider = ({provider, selected, onChange}) => (
 
 class Search extends Component {
     state = {
-        provider: '',
-        search: '',
+        provider: ''
     }
 
     onSearch = e => {
+        const search = e.detail.search
         this.setState({
-            provider: e.detail.provider,
-            search: e.detail.search,
-        }, this.makeSearch)
+            provider: e.detail.provider
+        }, () => this.makeSearch(search))
     }
 
     handleChange = e => {
@@ -35,25 +34,23 @@ class Search extends Component {
         })
     }
 
-    makeSearch = () => {
-        const provider = this.state.provider
-        const search = providers[provider].parser(this.state.search)
+    makeSearch = search => {
+        const { provider } = this.state
+        console.log('makeSearch', provider, search)
         if (search) {
             this.props.searchDone(provider, search)
         }
     }
 
     render() {
+        const { provider } = this.state
+        let ProviderForm
+        if (provider)
+            ProviderForm = providers[this.state.provider].form
         return (
             <div>
-                <Providers selected={this.state.provider} onChange={this.handleChange} />
-                {this.state.provider && (
-                    <div>
-                        <label htmlFor="search-input">Search</label>
-                        <input id="search-input" type="text" name="search" onChange={this.handleChange} placeholder={providers[this.state.provider].placeholder} />
-                        <button onClick={this.makeSearch}>Submit</button>
-                    </div>
-                )}
+                <Providers selected={provider} onChange={this.handleChange} />
+                {provider && <ProviderForm makeSearch={this.makeSearch} />}
             </div>
         )
     }

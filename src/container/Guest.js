@@ -9,6 +9,7 @@ class Guest extends Component {
     const Provider = provider ? providers[provider].component : null
     return (
       <div>
+        {provider}
         {provider && (
           <Provider />
         )}

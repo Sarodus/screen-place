@@ -7,6 +7,7 @@ import {
     CONTROL_SEND_JUMP,
     PEER_READY,
     PEER_CONNECT,
+    PEER_CONNECT_FAIL,
     PEER_RECEIVE_CONNECTION,
     PEER_REQUEST_SYNC,
     PEER_SEND_SYNC,
@@ -60,6 +61,10 @@ export const peerReceive = conn => ({
 export const peerConnect = otherId => ({
     type: PEER_CONNECT,
     otherId
+})
+
+export const peerConnectFail = () => ({
+    type: PEER_CONNECT_FAIL,
 })
 
 export const requestSync = peerId => ({

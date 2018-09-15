@@ -2,6 +2,7 @@ import { takeLatest, takeEvery, select, put } from 'redux-saga/effects'
 import peer from '../peer'
 import {
     PEER_CONNECT,
+    PEER_CONNECT_FAIL,
     PEER_RECEIVE_CONNECTION,
     PEER_REQUEST_SYNC,
     PEER_SEND_SYNC,
@@ -22,7 +23,10 @@ function* peerConnect(action) {
             peerId: peer.id
         })
     } catch (error) {
-        console.log(error)
+        console.log({error})
+        yield put({
+            type: PEER_CONNECT_FAIL
+        })
     }
 }
 
